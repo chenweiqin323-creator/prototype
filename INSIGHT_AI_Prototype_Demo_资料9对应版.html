@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>INSIGHT × AI PRD 对应交互 Demo</title>
+<style>
+:root{--nav:#0d1626;--bg:#f5f7fb;--card:#fff;--line:#e3e8f0;--text:#152033;--muted:#667085;--blue:#2867d8;--blue2:#eef4ff;--green:#12805c;--greenbg:#eaf8f2;--amber:#a86100;--amberbg:#fff4dc;--red:#c83b3b;--redbg:#fff0f0}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text)}
+.app{display:grid;grid-template-columns:220px 1fr;min-height:100vh}.nav{background:var(--nav);color:white;padding:28px 18px;position:fixed;width:220px;top:0;bottom:0}
+.logo{font-size:22px;font-weight:800;letter-spacing:.5px}.sub{font-size:11px;color:#9eabc0;margin-top:5px}.navitem{padding:11px 12px;border-radius:8px;margin:7px 0;color:#aeb8c9;font-size:14px}.navitem.active{background:#1a2942;color:white}
+.main{grid-column:2;padding:0 28px 40px}.top{height:66px;background:white;margin:0 -28px 24px;padding:0 28px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}
+.badge{background:var(--blue2);color:var(--blue);padding:7px 11px;border-radius:20px;font-size:12px;font-weight:700}.screen{display:none;max-width:1220px;margin:auto}.screen.active{display:block}
+h1{font-size:26px;margin:8px 0}h2{font-size:17px;margin:0 0 12px}.lead{color:var(--muted);margin:5px 0 22px}.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.metric,.card{background:white;border:1px solid var(--line);border-radius:12px;padding:18px}.metric b{font-size:26px;display:block;margin-top:8px}.muted{color:var(--muted)}.two{display:grid;grid-template-columns:1.45fr .85fr;gap:18px}.ai{border:1px solid #cddcff;background:linear-gradient(180deg,#fff,#f7faff)}
+.aihead{display:flex;align-items:center;gap:9px;font-weight:800;color:#234f9e}.spark{width:27px;height:27px;border-radius:8px;background:var(--blue);color:white;display:grid;place-items:center}
+.btn{border:0;border-radius:8px;padding:10px 15px;font-weight:700;cursor:pointer}.primary{background:var(--blue);color:white}.secondary{background:white;border:1px solid var(--line);color:var(--text)}.btn:hover{filter:brightness(.97)}
+.chart{height:160px;border-radius:9px;background:linear-gradient(180deg,#f4f7fc,#fff);position:relative;overflow:hidden}.chart:after{content:"";position:absolute;left:20px;right:20px;bottom:30px;height:2px;background:#dbe3ef;box-shadow:0 -32px #edf1f7,0 -64px #edf1f7,0 -96px #edf1f7}.line{position:absolute;left:30px;right:30px;bottom:50px;height:65px;border-bottom:3px solid var(--blue);transform:skewY(-7deg)}
+.row{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding:13px 0}.pill{padding:5px 9px;border-radius:16px;font-size:12px;font-weight:700}.p0{background:var(--redbg);color:var(--red)}.warn{background:var(--amberbg);color:var(--amber)}.ok{background:var(--greenbg);color:var(--green)}
+.detail{display:grid;grid-template-columns:1fr 400px;gap:18px}.drawer{background:white;border:1px solid var(--line);border-radius:12px;padding:18px;min-height:650px}.tabs{display:flex;gap:8px;margin:16px 0}.tab{padding:8px 11px;border-radius:8px;background:#f3f5f8;color:#596579;cursor:pointer;font-size:13px}.tab.active{background:var(--blue2);color:var(--blue);font-weight:700}
+.source{padding:11px;background:#f7f9fc;border-radius:8px;margin:8px 0;font-size:13px}.notice{padding:13px;border-radius:9px;background:var(--amberbg);color:#744b09;margin:14px 0}.safe{padding:13px;border-radius:9px;background:var(--greenbg);color:#126449;margin:14px 0}
+.field{margin:13px 0}.field label{display:block;font-size:12px;font-weight:700;color:#667085;margin-bottom:6px}.field input,.field textarea{width:100%;border:1px solid var(--line);border-radius:8px;padding:11px;font:inherit;background:#fbfcfe}.field textarea{min-height:76px;resize:vertical}
+.modalback{position:fixed;inset:0;background:rgba(12,20,34,.45);display:none;align-items:center;justify-content:center;z-index:10}.modalback.show{display:flex}.modal{width:520px;background:white;border-radius:16px;padding:24px;box-shadow:0 25px 80px rgba(0,0,0,.25)}.check{padding:9px 0}.actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
+.progress{display:flex;gap:8px;margin-bottom:18px}.dot{height:6px;flex:1;border-radius:4px;background:#dfe5ee}.dot.on{background:var(--blue)}
+@media(max-width:900px){.app{grid-template-columns:1fr}.nav{display:none}.main{grid-column:1}.grid4,.two,.detail{grid-template-columns:1fr}}
+</style></head>
+<body>
+<div class="app"><aside class="nav"><div class="logo">INSIGHT</div><div class="sub">Security Operations</div>
+<div style="margin-top:40px"><div class="navitem active">Dashboard</div><div class="navitem">Assets</div><div class="navitem">Vulnerabilities</div><div class="navitem">Work Orders</div><div class="navitem">Reports</div></div></aside>
+<main class="main"><div class="top"><b>INSIGHT × AI</b><span class="badge">PRD V1.0 · DEMO · 演示数据</span></div>
+
+<section id="s1" class="screen active">
+<div class="progress"><i class="dot on"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i></div>
+<h1>风险运营 Dashboard</h1><p class="lead">保留原有指标，只新增 AI 风险摘要。</p>
+<div class="grid4"><div class="metric">资产总数<b>12,840</b><span class="muted">系统计算</span></div><div class="metric">漏洞总数<b>1,284</b><span class="muted">系统计算</span></div><div class="metric">高风险漏洞<b>37</b><span class="muted">P0 / P1</span></div><div class="metric">待处理<b>216</b><span class="muted">当前范围</span></div></div>
+<div class="two" style="margin-top:16px"><div class="card"><h2>风险趋势</h2><div class="chart"><div class="line"></div></div></div>
+<div class="card ai"><div class="aihead"><span class="spark">✦</span>AI 今日风险摘要</div><h2 style="margin-top:18px">优先关注支付业务高风险漏洞</h2><p>当前范围内有 <b>3 个 P0/P1</b> 漏洞尚未处理，其中 1 个影响互联网暴露资产，2 个尚未进入工单流程。</p><div class="safe">数字来自 INSIGHT，AI 仅负责组织与解释。</div><button class="btn primary" onclick="go(2)">查看首要风险 →</button></div></div>
+</section>
+
+<section id="s2" class="screen"><div class="progress"><i class="dot on"></i><i class="dot on"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i></div>
+<h1>漏洞详情</h1><p class="lead">用户从 AI 摘要跳转到 INSIGHT 原有漏洞上下文。</p>
+<div class="detail"><div class="card"><h2>CVE-2026-DEMO · Payment API Gateway</h2>
+<div class="row"><span>VPT / 等级</span><span class="pill p0">P0 · Critical</span></div><div class="row"><span>状态</span><b>Unresolved</b></div><div class="row"><span>影响资产</span><b>Payment API Gateway</b></div><div class="row"><span>业务</span><b>Payment</b></div><div class="row"><span>暴露面</span><b>Internet-facing</b></div><div class="row"><span>来源</span><b>INSIGHT scanner</b></div>
+</div><div class="drawer"><div class="aihead"><span class="spark">✦</span>AI 漏洞分析</div><p class="muted">基于当前漏洞、资产和授权知识上下文。</p><div class="card ai" style="margin-top:20px"><b>我可以帮助你</b><p>解释为什么优先处理、说明企业影响，并整理可追溯的修复建议。</p></div><button class="btn primary" onclick="go(3)">打开 AI 分析 →</button></div></div>
+</section>
+
+<section id="s3" class="screen"><div class="progress"><i class="dot on"></i><i class="dot on"></i><i class="dot on"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i></div>
+<h1>AI 漏洞解释</h1><p class="lead">不是独立聊天机器人，而是嵌入漏洞详情的上下文能力。</p>
+<div class="detail"><div class="card"><h2>CVE-2026-DEMO</h2><p class="muted">Payment API Gateway · P0 · Unresolved</p><div class="chart"></div></div>
+<div class="drawer"><div class="aihead"><span class="spark">✦</span>AI 漏洞分析</div><div class="tabs"><div class="tab active" onclick="tab(this,'plain')">通俗解释</div><div class="tab" onclick="tab(this,'tech')">技术解释</div><div class="tab" onclick="tab(this,'fix')">处置建议</div></div>
+<div id="tabcontent"><h2>为什么需要优先处理？</h2><p>当前 INSIGHT 风险等级为 <b>P0</b>，且受影响资产属于支付业务的互联网暴露资产。</p><p>这意味着该问题同时具有较高的风险优先级与业务影响，需要优先进入处置流程。</p><div class="source">依据 1 · INSIGHT 漏洞记录</div><div class="source">依据 2 · 资产上下文与 VPT 结果</div></div>
+<button class="btn primary" onclick="go(4)">查看处置建议 →</button></div></div>
+</section>
+
+<section id="s4" class="screen"><div class="progress"><i class="dot on"></i><i class="dot on"></i><i class="dot on"></i><i class="dot on"></i><i class="dot"></i><i class="dot"></i></div>
+<h1>AI 修复建议</h1><p class="lead">精确匹配优先；证据不足时显示“待确认”。</p>
+<div class="two"><div class="card"><span class="pill ok">推荐处置</span><h2 style="margin-top:14px">在维护窗口执行已验证的正式修复</h2><p>根据当前演示知识上下文，建议先确认受影响版本与变更窗口，再执行正式修复，并在变更后按原流程发起复测。</p>
+<h2>执行前确认</h2><div class="notice">⚠ 当前产品版本需要人工确认，因此本 Demo 不给出确定的版本升级命令。</div>
+<div class="row"><span>生产版本</span><span class="pill warn">待确认</span></div><div class="row"><span>维护窗口</span><span class="pill warn">待确认</span></div><div class="row"><span>回滚方案</span><span class="pill warn">待确认</span></div>
+</div><div class="card"><h2>引用来源</h2><div class="source"><b>[KB-01]</b><br>INSIGHT remediation knowledge</div><div class="source"><b>[ADV-02]</b><br>Vendor advisory · demo source</div><div class="source"><b>[CVE-03]</b><br>CVE record · demo source</div><div class="safe">引用用于原型演示，不代表真实漏洞处置结论。</div><button class="btn primary" onclick="go(5)">✦ AI 生成工单草稿</button></div></div>
+</section>
+
+<section id="s5" class="screen"><div class="progress"><i class="dot on"></i><i class="dot on"></i><i class="dot on"></i><i class="dot on"></i><i class="dot on"></i><i class="dot"></i></div>
+<h1>AI 工单草稿</h1><p class="lead">AI 生成可编辑草稿，不是最终工单。</p>
+<div class="two"><div class="card"><div class="field"><label>工单标题</label><input value="[P0] Payment API Gateway 漏洞修复"></div>
+<div class="field"><label>漏洞 / CVE</label><input value="CVE-2026-DEMO"></div><div class="field"><label>影响资产</label><input value="Payment API Gateway"></div>
+<div class="field"><label>风险说明</label><textarea>当前漏洞在 INSIGHT 中为 P0，影响支付业务互联网暴露资产，需要优先进入处置流程。</textarea></div>
+<div class="field"><label>修复建议</label><textarea>确认受影响版本与维护窗口后执行已验证的正式修复；完成后按原流程发起复测。</textarea></div>
+<div class="field"><label>验收 / 复测要求</label><textarea>确认变更成功，并由安全人员发起复测；仅在复测结果确认后按原流程关闭漏洞。</textarea></div></div>
+<div class="card"><h2>创建前检查</h2><div class="check">✓ 风险说明是否符合实际</div><div class="check">✓ 修复方案是否适用于当前环境</div><div class="check">✓ 是否涉及生产变更或停机</div><div class="check">✓ 验收标准是否明确</div><div class="check">✓ 复测要求是否可执行</div><div class="notice">AI 不会自动创建或派发工单。</div><button class="btn primary" onclick="confirmModal()">审核并创建 →</button></div></div>
+</section>
+
+<section id="s6" class="screen"><div class="progress"><i class="dot on"></i><i class="dot on"></i><i class="dot on"></i><i class="dot on"></i><i class="dot on"></i><i class="dot on"></i></div>
+<h1>工单已创建</h1><div class="card" style="max-width:700px"><span class="pill ok">✓ 人工确认完成</span><h2 style="margin-top:18px">Work Order #WO-DEMO-10284</h2><p>工单已进入 INSIGHT 原有处理流程。后续修复、复测和关闭仍由原业务流程负责。</p><div class="safe">AI 到此停止，不自动修改漏洞状态、不执行生产变更、不自动关闭漏洞。</div><button class="btn secondary" onclick="go(1)">重新演示</button></div>
+</section>
+
+</main></div>
+<div id="modal" class="modalback"><div class="modal"><h2>确认创建工单？</h2><p class="muted">这是关键写操作，必须由用户确认。</p><div class="check">✓ 我已检查风险说明</div><div class="check">✓ 我已确认修复方案适用性</div><div class="check">✓ 我已确认变更影响与复测要求</div><div class="notice">AI 不会自动执行生产环境变更。</div><div class="actions"><button class="btn secondary" onclick="closeModal()">返回修改</button><button class="btn primary" onclick="createOrder()">确认创建</button></div></div></div>
+<script>
+function go(n){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.getElementById('s'+n).classList.add('active');window.scrollTo(0,0)}
+function confirmModal(){document.getElementById('modal').classList.add('show')}
+function closeModal(){document.getElementById('modal').classList.remove('show')}
+function createOrder(){closeModal();go(6)}
+function tab(el,type){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));el.classList.add('active');let c=document.getElementById('tabcontent');
+if(type==='plain')c.innerHTML='<h2>为什么需要优先处理？</h2><p>当前 INSIGHT 风险等级为 <b>P0</b>，且受影响资产属于支付业务的互联网暴露资产。</p><p>AI 解释现有事实，不修改 VPT。</p><div class="source">依据 · INSIGHT 漏洞记录与资产上下文</div>';
+if(type==='tech')c.innerHTML='<h2>技术解释</h2><p>这里展示漏洞原理、攻击前提、受影响产品/版本、检测证据和可能攻击路径。</p><div class="notice">当前版本字段未核验：待确认。</div>';
+if(type==='fix')c.innerHTML='<h2>处置建议</h2><p>优先检索 CVE、产品与版本的可信修复资料；若证据不足，不输出确定结论。</p><div class="source">3 条演示引用可在下一屏查看</div>';
+}
+</script></body></html>
